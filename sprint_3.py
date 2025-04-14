@@ -1,0 +1,101 @@
+import datetime
+
+class OnlineSalesRegisterCollector:
+
+    def __init__(self):
+        self.__name_items = []
+        self.__number_items = 0
+        self.__item_price = {'чипсы': 50, 'кола': 100, 'печенье': 45, 'молоко': 55, 'кефир': 70}
+        self.__tax_rate = {'чипсы': 20, 'кола': 20, 'печенье': 20, 'молоко': 10, 'кефир': 10}
+
+    @property
+    def get_name_items(self):
+        return self.__name_items
+
+    @property
+    def get_number_items(self):
+        return self.__number_items
+    
+    def add_item_to_cheque(self, name):
+        if len(name) == 0 or len(name) > 40:
+            raise ValueError('Нельзя добавить товар, если в его названии нет символов или их больше 40')
+        elif name not in self.__item_price:
+            raise NameError('Позиция отсутствует в товарном справочнике')
+        else:
+            self.__name_items.append(name)
+            self.__number_items += 1
+
+    def delete_item_from_check(self, name):
+        if name not in self.__name_items:
+            raise NameError('Позиция отсутствует в чеке')
+        else:
+            self.__name_items.remove(name)
+            self.__number_items -= 1
+
+    def check_amount(self):
+        total = []
+        
+        for name in self.__name_items:
+            if name in self.__item_price:
+                total.append(self.__item_price[name])
+
+            if len(total) > 10:
+                return sum(total) * 0.9
+            return sum(total)
+        
+    def twenty_percent_tax_calculation(self):
+        twenty_percent_tax = []
+        total = []
+
+        for name in self.__name_items:
+            if name in self.__tax_rate:
+                for key, value in self.__tax_rate:
+                    if value == 20:
+                        twenty_percent_tax.append(self.__name_items(name))
+                        total.append(self.__name_items[name])
+
+            if len(total) > 10:
+                return (sum(total) * 0.9) * 0.2
+            
+    def ten_percent_tax_calculation(self):
+        ten_percent_tax = []
+        total = []
+
+        for name in self.__name_items:
+            if name in self.__tax_rate:
+                for key, value in self.__tax_rate:
+                    if value == 10:
+                        ten_percent_tax.append(self.__name_items(name))
+                        total.append(self.__name_items[name])
+
+            if len(total) > 10:        
+                return (sum(total) * 0.9) * 0.1  
+            
+    def total_tax(self):
+        tax_20_total = OnlineSalesRegisterCollector.twenty_percent_tax_calculation()
+        tax_10_total = OnlineSalesRegisterCollector.ten_percent_tax_calculation()
+        return tax_20_total + tax_10_total
+    
+    @staticmethod
+    def get_telephone_number(telephone_number):
+        try:
+            int(telephone_number)
+        except ValueError:
+            print('Необходимо ввести цифры')
+        return f'str(+7), {telephone_number}'
+    
+    @staticmethod
+    def get_date_and_time():
+        date_and_time = []
+        now = datetime.datetime.now()
+        date = [
+            ['часы', (lambda x: x.hour)(now)], 
+            ['минуты', (lambda x: x.minute)(now)], 
+            ['день', (lambda x: x.day)(now)], 
+            ['месяц', (lambda x: x.month)(now)], 
+            ['год', (lambda x: x.year)(now)]
+            ]
+
+        for item in date():
+            date_and_time.append(f'{item[0]}: {item[1]}')
+        return date_and_time
