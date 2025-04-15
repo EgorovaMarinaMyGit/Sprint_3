@@ -9,11 +9,11 @@ class OnlineSalesRegisterCollector:
         self.__tax_rate = {'чипсы': 20, 'кола': 20, 'печенье': 20, 'молоко': 10, 'кефир': 10}
 
     @property
-    def get_name_items(self):
+    def name_items(self):
         return self.__name_items
 
     @property
-    def get_number_items(self):
+    def number_items(self):
         return self.__number_items
     
     def add_item_to_cheque(self, name):
@@ -53,10 +53,12 @@ class OnlineSalesRegisterCollector:
                     if value == 20:
                         twenty_percent_tax.append(self.__name_items(name))
                         total.append(self.__name_items[name])
+        
+            if len(twenty_percent_tax) > 10:        
+                return (sum(total) * 0.2) * 0.9
+            return sum(total) * 0.2 
 
-            if len(total) > 10:
-                return (sum(total) * 0.9) * 0.2
-            
+
     def ten_percent_tax_calculation(self):
         ten_percent_tax = []
         total = []
@@ -68,20 +70,24 @@ class OnlineSalesRegisterCollector:
                         ten_percent_tax.append(self.__name_items(name))
                         total.append(self.__name_items[name])
 
-            if len(total) > 10:        
-                return (sum(total) * 0.9) * 0.1  
+            if len(ten_percent_tax) > 10:        
+                return (sum(total) * 0.1) * 0.9
+            return sum(total) * 0.1 
             
     def total_tax(self):
-        tax_20_total = OnlineSalesRegisterCollector.twenty_percent_tax_calculation()
-        tax_10_total = OnlineSalesRegisterCollector.ten_percent_tax_calculation()
+        tax_20_total = OnlineSalesRegisterCollector.twenty_percent_tax_calculation(self)
+        tax_10_total = OnlineSalesRegisterCollector.ten_percent_tax_calculation(self)
         return tax_20_total + tax_10_total
     
     @staticmethod
     def get_telephone_number(telephone_number):
         try:
-            int(telephone_number)
+            telephone_number = int(telephone_number)
         except ValueError:
-            print('Необходимо ввести цифры')
+            ValueError('Необходимо ввести цифры')
+
+        if len(telephone_number) != 10:
+            raise ValueError('Необходимо ввести 10 цифр после "+7"')
         return f'str(+7), {telephone_number}'
     
     @staticmethod
