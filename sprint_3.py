@@ -75,8 +75,8 @@ class OnlineSalesRegisterCollector:
             return sum(total) * 0.1 
             
     def total_tax(self):
-        tax_20_total = OnlineSalesRegisterCollector.twenty_percent_tax_calculation(self)
-        tax_10_total = OnlineSalesRegisterCollector.ten_percent_tax_calculation(self)
+        tax_20_total = self.twenty_percent_tax_calculation()
+        tax_10_total = self.ten_percent_tax_calculation()
         return tax_20_total + tax_10_total
     
     @staticmethod
